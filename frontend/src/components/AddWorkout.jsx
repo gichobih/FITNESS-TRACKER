@@ -3,7 +3,6 @@ import styled from "styled-components";
 import TextInput from "./TextInput";
 import Button from "./Button";
 
-// Styled component for the card container
 const Card = styled.div`
   flex: 1;
   min-width: 280px;
@@ -18,7 +17,6 @@ const Card = styled.div`
     padding: 16px;
   }
 `;
-// Styled component for the title of the card
 const Title = styled.div`
   font-weight: 600;
   font-size: 16px;
@@ -28,7 +26,6 @@ const Title = styled.div`
   }
 `;
 
-// Main functional component for adding a new workout
 const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   return (
     <Card>
