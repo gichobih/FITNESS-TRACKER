@@ -2,6 +2,46 @@ import React from "react";
 import styled from "styled-components";
 import { FitnessCenterRounded, TimelapseRounded } from "@mui/icons-material";
 
+const WorkoutCard = ({ workout }) => {
+  return React.createElement(
+    Card,
+    null,
+    React.createElement(
+      Category,
+      null,
+      `#${workout?.category}`
+    ),
+    React.createElement(
+      Name,
+      null,
+      workout?.workoutName
+    ),
+    React.createElement(
+      Sets,
+      null,
+      `Count: ${workout?.sets} sets X ${workout?.reps} reps`
+    ),
+    React.createElement(
+      Flex,
+      null,
+      React.createElement(
+        Details,
+        null,
+        React.createElement(FitnessCenterRounded, { sx: { fontSize: "20px" } }),
+        `${workout?.weight} kg`
+      ),
+      React.createElement(
+        Details,
+        null,
+        React.createElement(TimelapseRounded, { sx: { fontSize: "20px" } }),
+        `${workout?.duration} min`
+      )
+    )
+  );
+};
+
+export default WorkoutCard;
+
 const Card = styled.div`
   flex: 1;
   min-width: 250px;
@@ -55,43 +95,3 @@ const Details = styled.div`
   align-items: center;
   gap: 6px;
 `;
-
-const WorkoutCard = ({ workout }) => {
-  return React.createElement(
-    Card,
-    null,
-    React.createElement(
-      Category,
-      null,
-      `#${workout?.category}`
-    ),
-    React.createElement(
-      Name,
-      null,
-      workout?.workoutName
-    ),
-    React.createElement(
-      Sets,
-      null,
-      `Count: ${workout?.sets} sets X ${workout?.reps} reps`
-    ),
-    React.createElement(
-      Flex,
-      null,
-      React.createElement(
-        Details,
-        null,
-        React.createElement(FitnessCenterRounded, { sx: { fontSize: "20px" } }),
-        `${workout?.weight} kg`
-      ),
-      React.createElement(
-        Details,
-        null,
-        React.createElement(TimelapseRounded, { sx: { fontSize: "20px" } }),
-        `${workout?.duration} min`
-      )
-    )
-  );
-};
-
-export default WorkoutCard;

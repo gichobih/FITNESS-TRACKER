@@ -8,18 +8,6 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Workouts from "./pages/Workouts";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: ${({ theme }) => theme.bg};
-  color: ${({ theme }) => theme.text_primary};
-  overflow-x: hidden;
-  overflow-y: hidden;
-  transition: all 0.2s ease;
-`;
-
 function App() {
   const { currentUser } = useSelector((state) => state.user);
   return (
@@ -44,3 +32,15 @@ function App() {
 }
 
 export default App;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.text_primary};
+  overflow-x: hidden;
+  overflow-y: hidden;
+  transition: all 0.2s ease;
+`;
