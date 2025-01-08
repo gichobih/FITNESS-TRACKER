@@ -1,5 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+// Component Description:
+// The `CountsCard` component is a reusable card component that displays a title, value, unit, description, and an icon. 
+// It is styled using `styled-components` and is designed to be responsive to different screen sizes. 
+// The card can dynamically adjust its color and content based on the `item` and `data` props passed to it.
 
 // Styled component for the card container
 const Card = styled.div`

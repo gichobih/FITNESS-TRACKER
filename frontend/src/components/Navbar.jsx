@@ -7,55 +7,6 @@ import { Avatar } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/reducers/userSlice";
 
-const Navbar = ({ currentUser }) => {
-  const dispatch = useDispatch();
-  const [isOpen, setisOpen] = useState(false);
-
-  return React.createElement(
-    Nav,
-    null,
-    React.createElement(
-      NavContainer,
-      null,
-      React.createElement(
-        Mobileicon,
-        { onClick: () => setisOpen(!isOpen) },
-        React.createElement(MenuRounded, { sx: { color: "inherit" } })
-      ),
-      React.createElement(
-        NavLogo,
-        { to: "/" },
-        React.createElement(Logo, { src: LogoImg }),
-        "Fittrack"
-      ),
-      React.createElement(MobileMenu, { isOpen: isOpen },
-        React.createElement(Navlink, { to: "/" }, "Dashboard"),
-        React.createElement(Navlink, { to: "/workouts" }, "Workouts"),
-        React.createElement(Navlink, { to: "/tutorials" }, "Tutorials"),
-        React.createElement(Navlink, { to: "/blogs" }, "Blogs"),
-        React.createElement(Navlink, { to: "/contact" }, "Contact")
-      ),
-      React.createElement(
-        NavItems,
-        null,
-        React.createElement(Navlink, { to: "/" }, "Dashboard"),
-        React.createElement(Navlink, { to: "/workouts" }, "Workouts"),
-        React.createElement(Navlink, { to: "/tutorials" }, "Tutorials"),
-        React.createElement(Navlink, { to: "/blogs" }, "Blogs"),
-        React.createElement(Navlink, { to: "/contact" }, "Contact")
-      ),
-      React.createElement(
-        UserContainer,
-        null,
-        React.createElement(Avatar, { src: currentUser?.img }, currentUser?.name[0]),
-        React.createElement(TextButton, { onClick: () => dispatch(logout()) }, "Logout")
-      )
-    )
-  );
-};
-
-export default Navbar;
-
 const Nav = styled.div`
   background-color: ${({ theme }) => theme.bg};
   height: 80px;
@@ -69,7 +20,6 @@ const Nav = styled.div`
   color: white;
   border-bottom: 1px solid ${({ theme }) => theme.text_secondary + 20};
 `;
-
 const NavContainer = styled.div`
   width: 100%;
   max-width: 1400px;
@@ -80,7 +30,6 @@ const NavContainer = styled.div`
   justify-content: space-between;
   font-size: 1rem;
 `;
-
 const NavLogo = styled(LinkR)`
   width: 100%;
   display: flex;
@@ -92,11 +41,9 @@ const NavLogo = styled(LinkR)`
   text-decoration: none;
   color: ${({ theme }) => theme.black};
 `;
-
 const Logo = styled.img`
   height: 42px;
 `;
-
 const Mobileicon = styled.div`
   color: ${({ theme }) => theme.text_primary};
   display: none;
@@ -119,7 +66,6 @@ const NavItems = styled.ul`
     display: none;
   }
 `;
-
 const Navlink = styled(NavLink)`
   display: flex;
   align-items: center;
@@ -147,7 +93,6 @@ const UserContainer = styled.div`
   padding: 0 6px;
   color: ${({ theme }) => theme.primary};
 `;
-
 const TextButton = styled.div`
   text-align: end;
   color: ${({ theme }) => theme.secondary};
@@ -181,3 +126,44 @@ const MobileMenu = styled.ul`
   opacity: ${({ isOpen }) => (isOpen ? "100%" : "0")};
   z-index: ${({ isOpen }) => (isOpen ? "1000" : "-1000")};
 `;
+
+const Navbar = ({ currentUser }) => {
+  const dispatch = useDispatch();
+  const [isOpen, setisOpen] = useState(false);
+  return (
+    <Nav>
+      <NavContainer>
+        <Mobileicon onClick={() => setisOpen(!isOpen)}>
+          <MenuRounded sx={{ color: "inherit" }} />
+        </Mobileicon>
+        <NavLogo to="/">
+          <Logo src={LogoImg} />
+          Fittrack
+        </NavLogo>
+
+        <MobileMenu isOpen={isOpen}>
+          <Navlink to="/">Dashboard</Navlink>
+          <Navlink to="/workouts">Workouts</Navlink>
+          <Navlink to="/tutorials">Tutorials</Navlink>
+          <Navlink to="/blogs">Blogs</Navlink>
+          <Navlink to="/contact">Contact</Navlink>
+        </MobileMenu>
+
+        <NavItems>
+          <Navlink to="/">Dashboard</Navlink>
+          <Navlink to="/workouts">Workouts</Navlink>
+          <Navlink to="/tutorials">Tutorials</Navlink>
+          <Navlink to="/blogs">Blogs</Navlink>
+          <Navlink to="/contact">Contact</Navlink>
+        </NavItems>
+
+        <UserContainer>
+          <Avatar src={currentUser?.img}>{currentUser?.name[0]}</Avatar>
+          <TextButton onClick={() => dispatch(logout())}>Logout</TextButton>
+        </UserContainer>
+      </NavContainer>
+    </Nav>
+  );
+};
+
+export default Navbar;

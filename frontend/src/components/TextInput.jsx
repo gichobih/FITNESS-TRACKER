@@ -1,100 +1,6 @@
 import { CloseRounded, Visibility, VisibilityOff } from "@mui/icons-material";
-import React, { useState, forwardRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-const TextInput = forwardRef(function TextInput(
-  {
-    label,
-    placeholder,
-    name,
-    value,
-    error,
-    handelChange,
-    textArea,
-    rows,
-    columns,
-    chipableInput,
-    chipableArray,
-    removeChip,
-    height,
-    small,
-    popup,
-    password,
-  },
-  ref
-) {
-  const [showPassword, setShowPassword] = useState(false);
-
-  return (
-    <Container small={small}>
-      <Label small={small} popup={popup} error={error}>
-        {label}
-      </Label>
-      <OutlinedInput
-        small={small}
-        popup={popup}
-        error={error}
-        chipableInput={chipableInput}
-        height={height}
-      >
-        {chipableInput ? (
-          <ChipWrapper>
-            {chipableArray.map((chip, index) => (
-              <Chip key={index}>
-                <span>{chip}</span>
-                <CloseRounded
-                  sx={{ fontSize: "14px" }}
-                  onClick={() => removeChip(name, index)}
-                />
-              </Chip>
-            ))}
-            <Input
-              placeholder={placeholder}
-              name={name}
-              value={value}
-              onChange={(e) => handelChange(e)}
-              ref={ref}
-            />
-          </ChipWrapper>
-        ) : (
-          <>
-            <Input
-              popup={popup}
-              small={small}
-              as={textArea ? "textarea" : "input"}
-              name={name}
-              rows={rows}
-              columns={columns}
-              placeholder={placeholder}
-              value={value}
-              onChange={(e) => handelChange(e)}
-              type={password && !showPassword ? "password" : "text"}
-              ref={ref}
-            />
-            {password && (
-              <>
-                {showPassword ? (
-                  <Visibility onClick={() => setShowPassword(false)} />
-                ) : (
-                  <VisibilityOff onClick={() => setShowPassword(true)} />
-                )}
-              </>
-            )}
-          </>
-        )}
-      </OutlinedInput>
-      {error && (
-        <Error small={small} popup={popup}>
-          {error}
-        </Error>
-      )}
-    </Container>
-  );
-});
-
-TextInput.displayName = "TextInput";
-
-export default TextInput;
 
 const Container = styled.div`
   flex: 1;
@@ -220,3 +126,93 @@ const Chip = styled.div`
   cursor: pointer;
   transition: all 0.3s ease;
 `;
+
+const TextInput = ({
+  label,
+  placeholder,
+  name,
+  value,
+  error,
+  handelChange,
+  textArea,
+  rows,
+  columns,
+  chipableInput,
+  chipableArray,
+  removeChip,
+  height,
+  small,
+  popup,
+  password,
+}) => {
+  const [showPassword, setShowPassword] = useState(false);
+  return (
+    <Container small={small}>
+      <Label small={small} popup={popup} error={error}>
+        {label}
+      </Label>
+      <OutlinedInput
+        small={small}
+        popup={popup}
+        error={error}
+        chipableInput={chipableInput}
+        height={height}
+      >
+        {chipableInput ? (
+          <ChipWrapper>
+            {chipableArray.map((chip, index) => (
+              <Chip key={index}>
+                <span>{chip}</span>
+                <CloseRounded
+                  sx={{ fontSize: "14px" }}
+                  onClick={() => removeChip(name, index)}
+                />
+              </Chip>
+            ))}
+            <Input
+              placeholder={placeholder}
+              name={name}
+              value={value}
+              onChange={(e) => handelChange(e)}
+            />
+          </ChipWrapper>
+        ) : (
+          <>
+            <Input
+              popup={popup}
+              small={small}
+              as={textArea ? "textarea" : "input"}
+              name={name}
+              rows={rows}
+              columns={columns}
+              placeholder={placeholder}
+              value={value}
+              onChange={(e) => handelChange(e)}
+              type={password && !showPassword ? "password" : "text"}
+            />
+            {password && (
+              <>
+                {showPassword ? (
+                  <>
+                    <Visibility onClick={() => setShowPassword(false)} />
+                  </>
+                ) : (
+                  <>
+                    <VisibilityOff onClick={() => setShowPassword(true)} />
+                  </>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </OutlinedInput>
+      {error && (
+        <Error small={small} popup={popup}>
+          {error}
+        </Error>
+      )}
+    </Container>
+  );
+};
+
+export default TextInput;
