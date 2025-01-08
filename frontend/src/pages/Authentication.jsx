@@ -5,6 +5,7 @@ import AuthImage from "../utils/Images/AuthImage.jpg";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 
+// Container for the authentication page layout
 const Container = styled.div`
   flex: 1;
   height: 100%;
@@ -14,6 +15,8 @@ const Container = styled.div`
     flex-direction: column;
   }
 `;
+
+// Left section of the authentication page that holds the logo and image
 const Left = styled.div`
   flex: 1;
   position: relative;
@@ -21,6 +24,8 @@ const Left = styled.div`
     display: none;
   }
 `;
+
+// Styling for the logo image
 const Logo = styled.img`
   position: absolute;
   width: 70px;
@@ -28,6 +33,8 @@ const Logo = styled.img`
   left: 60px;
   z-index: 10;
 `;
+
+// Styling for the background image in the left section
 const Image = styled.img`
   position: relative;
   height: 100%;
@@ -35,6 +42,7 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
+// Right section of the page for the authentication form and text
 const Right = styled.div`
   flex: 1;
   position: relative;
@@ -46,6 +54,7 @@ const Right = styled.div`
   justify-content: center;
 `;
 
+// Text styling for the messages below the form
 const Text = styled.div`
   font-size: 16px;
   text-align: center;
@@ -55,6 +64,8 @@ const Text = styled.div`
     font-size: 14px;
   }
 `;
+
+// TextButton is used for clickable links that allow users to switch between SignIn and SignUp
 const TextButton = styled.span`
   color: ${({ theme }) => theme.primary};
   cursor: pointer;
