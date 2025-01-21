@@ -6,6 +6,25 @@ import { BarChart } from "@mui/x-charts/BarChart";
 // It uses styled-components for styling and the `BarChart` component from the Material-UI library to render the chart. 
 // The data for the chart is passed as a prop to the component.
 
+// Main functional component
+const WeeklyStatCard = ({ data }) => {
+  return (
+    <Card>
+      <Title>Weekly Calories Burned</Title>
+      {data?.totalWeeksCaloriesBurnt && (
+        <BarChart
+          xAxis={[
+            { scaleType: "band", data: data?.totalWeeksCaloriesBurnt?.weeks },
+          ]}
+          series={[{ data: data?.totalWeeksCaloriesBurnt?.caloriesBurned }]}
+          height={300}
+        />
+      )}
+    </Card>
+  );
+};
+
+export default WeeklyStatCard;
 // Styled component for the card container
 const Card = styled.div`
   flex: 1;
@@ -30,22 +49,3 @@ const Title = styled.div`
     font-size: 14px;
   }
 `;
-// Main functional component
-const WeeklyStatCard = ({ data }) => {
-  return (
-    <Card>
-      <Title>Weekly Calories Burned</Title>
-      {data?.totalWeeksCaloriesBurnt && (
-        <BarChart
-          xAxis={[
-            { scaleType: "band", data: data?.totalWeeksCaloriesBurnt?.weeks },
-          ]}
-          series={[{ data: data?.totalWeeksCaloriesBurnt?.caloriesBurned }]}
-          height={300}
-        />
-      )}
-    </Card>
-  );
-};
-
-export default WeeklyStatCard;

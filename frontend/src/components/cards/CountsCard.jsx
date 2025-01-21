@@ -5,6 +5,27 @@ import styled from "styled-components";
 // It is styled using `styled-components` and is designed to be responsive to different screen sizes. 
 // The card can dynamically adjust its color and content based on the `item` and `data` props passed to it.
 
+// Main functional component
+const CountsCard = ({ item, data }) => {
+  return (
+    <Card>
+      <Left>
+        <Title>{item.name}</Title>
+        <Value>
+          {data && data[item.key].toFixed(2)}
+          <Unit>{item.unit}</Unit>
+          <Span positive>(+10%)</Span>
+        </Value>
+        <Desc>{item.desc}</Desc>
+      </Left>
+      <Icon color={item.color} bg={item.lightColor}>
+        {item.icon}
+      </Icon>
+    </Card>
+  );
+};
+
+export default CountsCard;
 // Styled component for the card container
 const Card = styled.div`
   flex: 1;
@@ -90,24 +111,3 @@ const Desc = styled.div`
     font-size: 12px;
   }
 `;
-// Main functional component
-const CountsCard = ({ item, data }) => {
-  return (
-    <Card>
-      <Left>
-        <Title>{item.name}</Title>
-        <Value>
-          {data && data[item.key].toFixed(2)}
-          <Unit>{item.unit}</Unit>
-          <Span positive>(+10%)</Span>
-        </Value>
-        <Desc>{item.desc}</Desc>
-      </Left>
-      <Icon color={item.color} bg={item.lightColor}>
-        {item.icon}
-      </Icon>
-    </Card>
-  );
-};
-
-export default CountsCard;
