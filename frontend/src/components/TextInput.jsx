@@ -2,6 +2,7 @@ import { CloseRounded, Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+// Styled components for the layout and styling of the input components
 const Container = styled.div`
   flex: 1;
   display: flex;
