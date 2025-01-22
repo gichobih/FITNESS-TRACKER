@@ -8,7 +8,6 @@ import AddWorkout from "../components/AddWorkout";
 import WorkoutCard from "../components/cards/WorkoutCard";
 import { addWorkout, getDashboardDetails, getWorkouts } from "../api";
 
-// Function to fetch dashboard details
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
@@ -20,6 +19,7 @@ const Dashboard = () => {
 -30 kg
 -10 min`);
 
+  // Function to fetch dashboard data
   const dashboardData = async () => {
     setLoading(true);
     const token = localStorage.getItem("fittrack-app-token");
@@ -34,40 +34,65 @@ const Dashboard = () => {
   const getTodaysWorkout = async () => {
     setLoading(true);
     const token = localStorage.getItem("fittrack-app-token");
-    await getWorkouts(token, "").then((res) => {
+    // Get the current date
+    const currentDate = new Date().toISOString().split("T")[0];  // Format as YYYY-MM-DD
+    await getWorkouts(token, currentDate).then((res) => {
       setTodaysWorkouts(res?.data?.todaysWorkouts);
-      console.log(res.data);
       setLoading(false);
     });
   };
 
-  // Function to add a new workout
   const addNewWorkout = async () => {
-    setButtonLoading(true);
-    const token = localStorage.getItem("fittrack-app-token");
-    await addWorkout(token, { workoutString: workout })
-      .then((res) => {
-        dashboardData();
-        getTodaysWorkout();
-        setButtonLoading(false);
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    console.log("Add Workout button clicked");
+    setButtonLoading(true); // Start loading state
+  
+    try {
+      const token = localStorage.getItem("fittrack-app-token");
+      if (!token) {
+        throw new Error("User is not authenticated. Token not found.");
+      }
+  
+      console.log("Token retrieved:", token);
+  
+      // Validate the workout state
+      if (!workout || workout.trim() === "") {
+        throw new Error("Workout data is required and cannot be empty.");
+      }
+  
+      console.log("Workout to be added:", workout);
+  
+      // Make the API call
+      const response = await addWorkout(token, { workoutString: workout });
+      console.log("API response:", response.data);
+  
+      // Refresh the dashboard and today's workouts
+      await dashboardData();
+      await getTodaysWorkout();
+  
+      console.log("Workout added successfully!");
+    } catch (error) {
+      console.error("Error adding workout:", error.message || error);
+      alert(error.message || "An error occurred while adding the workout.");
+    } finally {
+      setButtonLoading(false); // End loading state
+    }
   };
+  
+  
 
-   // useEffect hook to call the data fetching functions on component mount
-   useEffect(() => {
+  // Run the functions when component mounts
+  useEffect(() => {
     dashboardData();
     getTodaysWorkout();
   }, []);
+
   return (
     <Container>
       <Wrapper>
         <Title>Dashboard</Title>
         <FlexWrap>
           {counts.map((item) => (
-            <CountsCard item={item} data={data} />
+            <CountsCard key={item.id} item={item} data={data} />
           ))}
         </FlexWrap>
 
@@ -85,8 +110,8 @@ const Dashboard = () => {
         <Section>
           <Title>Todays Workouts</Title>
           <CardWrapper>
-            {todaysWorkouts.map((workout) => (
-              <WorkoutCard workout={workout} />
+            {todaysWorkouts.map((workout, index) => (
+              <WorkoutCard key={index} workout={workout} />
             ))}
           </CardWrapper>
         </Section>
@@ -96,7 +121,7 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-// Container for the entire dashboard layout
+
 const Container = styled.div`
   flex: 1;
   height: 100%;
@@ -106,19 +131,18 @@ const Container = styled.div`
   overflow-y: scroll;
 `;
 
-// Wrapper for the dashboard content with a maximum width and spacing
 const Wrapper = styled.div`
   flex: 1;
   max-width: 1400px;
   display: flex;
-  flex-direction: column;
+  flex-direction:
+  column;
   gap: 22px;
   @media (max-width: 600px) {
     gap: 12px;
   }
 `;
 
-// Title styling for the sections
 const Title = styled.div`
   padding: 0px 16px;
   font-size: 22px;
@@ -126,7 +150,6 @@ const Title = styled.div`
   font-weight: 500;
 `;
 
-// FlexWrap is used to create a responsive grid layout for the section contents
 const FlexWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -138,19 +161,16 @@ const FlexWrap = styled.div`
   }
 `;
 
-// Section styling for specific content blocks
 const Section = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0px 16px;
   gap: 22px;
-  padding: 0px 16px;
   @media (max-width: 600px) {
     gap: 12px;
   }
 `;
 
-// CardWrapper is used to display workout cards in a grid layout
 const CardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;

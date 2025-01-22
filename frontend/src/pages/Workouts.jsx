@@ -8,6 +8,76 @@ import { getWorkouts } from "../api";
 import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 
+// Main Workouts component
+const Workouts = () => {
+  const dispatch = useDispatch();
+
+  // State variables
+  const [todaysWorkouts, setTodaysWorkouts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState("");
+
+  // Function to fetch today's workout data based on the selected date
+  const getTodaysWorkout = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("fittrack-app-token");
+    await getWorkouts(token, date ? `?date=${date}` : "")
+      .then((res) => {
+        setTodaysWorkouts(res?.data?.todaysWorkouts);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  };
+
+  // useEffect hook to fetch workouts whenever the selected date changes
+  useEffect(() => {
+    if (date) {
+      getTodaysWorkout();
+    }
+  }, [date]);
+
+  return (
+    <Container>
+      <Wrapper>
+        <Left>
+          <Title>Select Date</Title>
+          {/* The calendar component for selecting the date */}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar
+              onChange={(e) => setDate(`${e.$M + 1}/${e.$D}/${e.$y}`)}
+            />
+          </LocalizationProvider>
+        </Left>
+        <Right>
+          <Section>
+            <SecTitle>Todays Workout</SecTitle>
+            {loading ? (
+              <CircularProgress />  // Show loading spinner while fetching data
+            ) : (
+              <CardWrapper>
+                {/* Display workout cards if available */}
+                {todaysWorkouts?.length > 0 ? (
+                  todaysWorkouts.map((workout) => (
+                    <WorkoutCard workout={workout} key={workout.id} />
+                  ))
+                ) : (
+                  <div>No workouts for today.</div>
+                )}
+              </CardWrapper>
+            )}
+          </Section>
+        </Right>
+      </Wrapper>
+    </Container>
+  );
+};
+
+export default Workouts;
+
 // Container for the main layout of the page
 const Container = styled.div`
   flex: 1;
@@ -86,59 +156,3 @@ const SecTitle = styled.div`
   color: ${({ theme }) => theme.text_primary};
   font-weight: 500;
 `;
-
-// Main Workouts component
-const Workouts = () => {
-  const dispatch = useDispatch();
-
-  // State variables
-  const [todaysWorkouts, setTodaysWorkouts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState("");
-
-  // Function to fetch today's workout data based on the selected date
-  const getTodaysWorkout = async () => {
-    setLoading(true);
-    const token = localStorage.getItem("fittrack-app-token");
-    await getWorkouts(token, date ? `?date=${date}` : "").then((res) => {
-      setTodaysWorkouts(res?.data?.todaysWorkouts);
-      console.log(res.data);
-      setLoading(false);
-    });
-  };
-
-   // Fetch workouts whenever the selected date changes
-  useEffect(() => {
-    getTodaysWorkout();
-  }, [date]);
-  return (
-    <Container>
-      <Wrapper>
-        <Left>
-          <Title>Select Date</Title>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateCalendar
-              onChange={(e) => setDate(`${e.$M + 1}/${e.$D}/${e.$y}`)}
-            />
-          </LocalizationProvider>
-        </Left>
-        <Right>
-          <Section>
-            <SecTitle>Todays Workout</SecTitle>
-            {loading ? (
-              <CircularProgress />
-            ) : (
-              <CardWrapper>
-                {todaysWorkouts.map((workout) => (
-                  <WorkoutCard workout={workout} />
-                ))}
-              </CardWrapper>
-            )}
-          </Section>
-        </Right>
-      </Wrapper>
-    </Container>
-  );
-};
-
-export default Workouts;

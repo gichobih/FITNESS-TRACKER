@@ -5,6 +5,47 @@ import AuthImage from "../utils/Images/AuthImage.jpg";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 
+// TextButton is used for clickable links that allow users to switch between SignIn and SignUp
+const TextButton = styled.span`
+  color: ${({ theme }) => theme.primary};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+`;
+
+const Authentication = () => {
+  const [login, setLogin] = useState(false);
+  return (
+    <Container>
+      <Left>
+        <Logo src={LogoImage} />
+        <Image src={AuthImage} />
+      </Left>
+      <Right>
+        {!login ? (
+          <>
+            <SignIn />
+            <Text>
+              Don't have an account?{" "}
+              <TextButton onClick={() => setLogin(true)}>SignUp</TextButton>
+            </Text>
+          </>
+        ) : (
+          <>
+            <SignUp />
+            <Text>
+              Already have an account?{" "}
+              <TextButton onClick={() => setLogin(false)}>SignIn</TextButton>
+            </Text>
+          </>
+        )}
+      </Right>
+    </Container>
+  );
+};
+
+export default Authentication;
+
 // Container for the authentication page layout
 const Container = styled.div`
   flex: 1;
@@ -64,44 +105,3 @@ const Text = styled.div`
     font-size: 14px;
   }
 `;
-
-// TextButton is used for clickable links that allow users to switch between SignIn and SignUp
-const TextButton = styled.span`
-  color: ${({ theme }) => theme.primary};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-`;
-
-const Authentication = () => {
-  const [login, setLogin] = useState(false);
-  return (
-    <Container>
-      <Left>
-        <Logo src={LogoImage} />
-        <Image src={AuthImage} />
-      </Left>
-      <Right>
-        {!login ? (
-          <>
-            <SignIn />
-            <Text>
-              Don't have an account?{" "}
-              <TextButton onClick={() => setLogin(true)}>SignUp</TextButton>
-            </Text>
-          </>
-        ) : (
-          <>
-            <SignUp />
-            <Text>
-              Already have an account?{" "}
-              <TextButton onClick={() => setLogin(false)}>SignIn</TextButton>
-            </Text>
-          </>
-        )}
-      </Right>
-    </Container>
-  );
-};
-
-export default Authentication;
