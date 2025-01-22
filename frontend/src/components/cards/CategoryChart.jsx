@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { PieChart } from "@mui/x-charts/PieChart";
 
-// Styled component for the card container
 const Card = styled.div`
   flex: 1;
   min-width: 280px;
@@ -17,7 +16,6 @@ const Card = styled.div`
     padding: 16px;
   }
 `;
-// Styled component for the chart title
 const Title = styled.div`
   font-weight: 600;
   font-size: 16px;
@@ -27,7 +25,6 @@ const Title = styled.div`
   }
 `;
 
-// CategoryChart component displays a card with a title and a pie chart
 const CategoryChart = ({ data }) => {
   return (
     <Card>
