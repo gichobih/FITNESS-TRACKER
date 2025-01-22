@@ -1,10 +1,31 @@
 import { FitnessCenterRounded, TimelapseRounded } from "@mui/icons-material";
 import React from "react";
 import styled from "styled-components";
-// Component Description:
-// The `WorkoutCard` component is a reusable card designed to display details of a workout session. 
-// It uses styled-components for styling and Material-UI icons to represent weight and duration visually. 
-// The workout data is passed as a prop to the component.
+
+// Main functional component
+const WorkoutCard = ({ workout }) => {
+  return (
+    <Card>
+      <Category>#{workout?.category}</Category>
+      <Name>{workout?.workoutName}</Name>
+      <Sets>
+        Count: {workout?.sets} sets X {workout?.reps} reps
+      </Sets>
+      <Flex>
+        <Details>
+          <FitnessCenterRounded sx={{ fontSize: "20px" }} />
+          {workout?.weight} kg
+        </Details>
+        <Details>
+          <TimelapseRounded sx={{ fontSize: "20px" }} />
+          {workout?.duration} min
+        </Details>
+      </Flex>
+    </Card>
+  );
+};
+
+export default WorkoutCard;
 
 // Styled component for the card container
 const Card = styled.div`
@@ -60,27 +81,3 @@ const Details = styled.div`
   align-items: center;
   gap: 6px;
 `;
-// Main functional component
-const WorkoutCard = ({ workout }) => {
-  return (
-    <Card>
-      <Category>#{workout?.category}</Category>
-      <Name>{workout?.workoutName}</Name>
-      <Sets>
-        Count: {workout?.sets} sets X {workout?.reps} reps
-      </Sets>
-      <Flex>
-        <Details>
-          <FitnessCenterRounded sx={{ fontSize: "20px" }} />
-          {workout?.weight} kg
-        </Details>
-        <Details>
-          <TimelapseRounded sx={{ fontSize: "20px" }} />
-          {workout?.duration} min
-        </Details>
-      </Flex>
-    </Card>
-  );
-};
-
-export default WorkoutCard;

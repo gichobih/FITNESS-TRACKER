@@ -1,6 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 
+const CountsCard = ({ item, data }) => {
+  return (
+    <Card>
+      <Left>
+        <Title>{item.name}</Title>
+        <Value>
+          {data && data[item.key].toFixed(2)}
+          <Unit>{item.unit}</Unit>
+          <Span positive>(+10%)</Span>
+        </Value>
+        <Desc>{item.desc}</Desc>
+      </Left>
+      <Icon color={item.color} bg={item.lightColor}>
+        {item.icon}
+      </Icon>
+    </Card>
+  );
+};
+
+export default CountsCard;
+
 const Card = styled.div`
   flex: 1;
   min-width: 200px;
@@ -79,24 +100,3 @@ const Desc = styled.div`
     font-size: 12px;
   }
 `;
-
-const CountsCard = ({ item, data }) => {
-  return (
-    <Card>
-      <Left>
-        <Title>{item.name}</Title>
-        <Value>
-          {data && data[item.key].toFixed(2)}
-          <Unit>{item.unit}</Unit>
-          <Span positive>(+10%)</Span>
-        </Value>
-        <Desc>{item.desc}</Desc>
-      </Left>
-      <Icon color={item.color} bg={item.lightColor}>
-        {item.icon}
-      </Icon>
-    </Card>
-  );
-};
-
-export default CountsCard;

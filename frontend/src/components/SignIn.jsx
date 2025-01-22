@@ -6,25 +6,6 @@ import { UserSignIn } from "../api";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/reducers/userSlice";
 
-// Styled-components for the layout of the SignIn page
-const Container = styled.div`
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-`;
-const Title = styled.div`
-  font-size: 30px;
-  font-weight: 800;
-  color: ${({ theme }) => theme.text_primary};
-`;
-const Span = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.text_secondary + 90};
-`;
-
 const SignIn = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -42,22 +23,30 @@ const SignIn = () => {
   };
 
   // Function to handle the sign-in process
-  const handelSignIn = async () => {
+  const handleSignIn = async () => {
     setLoading(true);
     setButtonDisabled(true);
+
     if (validateInputs()) {
-      await UserSignIn({ email, password })
-        .then((res) => {
-          dispatch(loginSuccess(res.data));
+      try {
+        const response = await UserSignIn({ email, password });
+
+        // Check if the response structure is as expected
+        if (response && response.data) {
+          dispatch(loginSuccess(response.data));
           alert("Login Success");
-          setLoading(false);
-          setButtonDisabled(false);
-        })
-        .catch((err) => {
-          alert(err.response.data.message);
-          setLoading(false);
-          setButtonDisabled(false);
-        });
+        } else {
+          alert("Unexpected response format");
+        }
+      } catch (err) {
+        // Handle different types of errors gracefully
+        const errorMessage =
+          err?.response?.data?.message || "An error occurred. Please try again.";
+        alert(errorMessage);
+      } finally {
+        setLoading(false);
+        setButtonDisabled(false);
+      }
     }
   };
 
@@ -89,7 +78,7 @@ const SignIn = () => {
         />
         <Button
           text="SignIn"
-          onClick={handelSignIn}
+          onClick={handleSignIn}
           isLoading={loading}
           isDisabled={buttonDisabled}
         />
@@ -99,3 +88,24 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+// Styled-components for the layout of the SignIn page
+const Container = styled.div`
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+`;
+
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: 800;
+  color: ${({ theme }) => theme.text_primary};
+`;
+
+const Span = styled.div`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.text_secondary + 90};
+`;

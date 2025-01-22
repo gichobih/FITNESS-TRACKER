@@ -2,6 +2,46 @@ import { CircularProgress } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 
+// Main button component that takes multiple props to customize the button's behavior and appearance
+const button = ({
+  text,
+  isLoading,
+  isDisabled,
+  rightIcon,
+  leftIcon,
+  type,
+  onClick,
+  flex,
+  small,
+  outlined,
+  full,
+}) => {
+  return (
+    <Button
+      onClick={() => !isDisabled && !isLoading && onClick()}
+      isDisabled={isDisabled}
+      type={type}
+      isLoading={isLoading}
+      flex={flex}
+      small={small}
+      outlined={outlined}
+      full={full}
+    >
+      {isLoading && (
+        <CircularProgress
+          style={{ width: "18px", height: "18px", color: "inherit" }}
+        />
+      )}
+      {leftIcon}
+      {text}
+      {isLoading && <> . . .</>}
+      {rightIcon}
+    </Button>
+  );
+};
+
+export default button;
+
 // Styled component that defines the appearance and behavior of the button
 const Button = styled.div`
   border-radius: 10px;
@@ -67,43 +107,3 @@ color: ${theme.primary};
     `
   width: 100%;`}
 `;
-
-// Main button component that takes multiple props to customize the button's behavior and appearance
-const button = ({
-  text,
-  isLoading,
-  isDisabled,
-  rightIcon,
-  leftIcon,
-  type,
-  onClick,
-  flex,
-  small,
-  outlined,
-  full,
-}) => {
-  return (
-    <Button
-      onClick={() => !isDisabled && !isLoading && onClick()}
-      isDisabled={isDisabled}
-      type={type}
-      isLoading={isLoading}
-      flex={flex}
-      small={small}
-      outlined={outlined}
-      full={full}
-    >
-      {isLoading && (
-        <CircularProgress
-          style={{ width: "18px", height: "18px", color: "inherit" }}
-        />
-      )}
-      {leftIcon}
-      {text}
-      {isLoading && <> . . .</>}
-      {rightIcon}
-    </Button>
-  );
-};
-
-export default button;

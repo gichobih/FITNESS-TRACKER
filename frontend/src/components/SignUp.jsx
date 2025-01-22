@@ -6,25 +6,6 @@ import { UserSignUp } from "../api";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/reducers/userSlice";
 
-// Styled-components for the layout of the SignUp page
-const Container = styled.div`
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-`;
-const Title = styled.div`
-  font-size: 30px;
-  font-weight: 800;
-  color: ${({ theme }) => theme.text_primary};
-`;
-const Span = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.text_secondary + 90};
-`;
-
 const SignUp = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -33,34 +14,49 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-   // Function to validate user inputs
+  // Function to validate user inputs
   const validateInputs = () => {
     if (!name || !email || !password) {
       alert("Please fill in all fields");
       return false;
     }
+    // Additional validation for email format (optional)
+    const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return false;
+    }
     return true;
   };
 
-   // Function to handle the sign-up process
-  const handelSignUp = async () => {
+  // Function to handle the sign-up process
+  const handleSignUp = async () => {
     setLoading(true);
     setButtonDisabled(true);
+
     if (validateInputs()) {
-      await UserSignUp({ name, email, password })
-        .then((res) => {
-          dispatch(loginSuccess(res.data));
-          alert("Account Created Success");
-          setLoading(false);
-          setButtonDisabled(false);
-        })
-        .catch((err) => {
-          alert(err.response.data.message);
-          setLoading(false);
-          setButtonDisabled(false);
-        });
+      try {
+        const response = await UserSignUp({ name, email, password });
+
+        // Check if the response structure is as expected
+        if (response && response.data) {
+          dispatch(loginSuccess(response.data));
+          alert("Account Created Successfully");
+        } else {
+          alert("Unexpected response format");
+        }
+      } catch (err) {
+        // Handle different types of errors gracefully
+        const errorMessage =
+          err?.response?.data?.message || "An error occurred. Please try again.";
+        alert(errorMessage);
+      } finally {
+        setLoading(false);
+        setButtonDisabled(false);
+      }
     }
   };
+
   return (
     <Container>
       <div>
@@ -75,7 +71,7 @@ const SignUp = () => {
         }}
       >
         <TextInput
-          label="Full name"
+          label="Full Name"
           placeholder="Enter your full name"
           value={name}
           handelChange={(e) => setName(e.target.value)}
@@ -94,8 +90,8 @@ const SignUp = () => {
           handelChange={(e) => setPassword(e.target.value)}
         />
         <Button
-          text="SignUp"
-          onClick={handelSignUp}
+          text="Sign Up"
+          onClick={handleSignUp}
           isLoading={loading}
           isDisabled={buttonDisabled}
         />
@@ -105,3 +101,24 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// Styled-components for the layout of the SignUp page
+const Container = styled.div`
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+`;
+
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: 800;
+  color: ${({ theme }) => theme.text_primary};
+`;
+
+const Span = styled.div`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.text_secondary + 90};
+`;
