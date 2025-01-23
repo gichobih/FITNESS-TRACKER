@@ -24,7 +24,7 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
 -Weight
 -Duration`}  // Placeholder text giving the user a format example
         value={workout}  // The current value of the workout input
-        handelChange={(e) => setWorkout(e.target.value)}  // Update the workout state when the input changes
+        handelChange={(e) => setWorkout(e.target.value)}
       />
       
       {/* Button to add the new workout */}
