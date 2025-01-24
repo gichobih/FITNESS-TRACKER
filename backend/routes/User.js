@@ -7,7 +7,7 @@ import {
   getWorkoutsByDate,
 } from "../Controllers/User.js";
 import { verifyToken } from "../middleware/verifyToken.js";
-import { getFitnessTutorials } from "../Controllers/Tutorials.js"; // Import the tutorial controller
+import { getFitnessTutorials } from "../Controllers/Tutorials.js";
 
 const router = express.Router();
 

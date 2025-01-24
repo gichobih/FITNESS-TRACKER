@@ -14,9 +14,9 @@ import userReducer from "./reducers/userSlice";
 
 // Configuration for redux-persist
 const persistConfig = {
-  key: "root", // Key for the root of the persisted state
-  version: 1, // Version of the persisted state
-  storage, // Storage engine (localStorage)
+  key: "root",
+  version: 1,
+  storage,
 };
 
 // Combine all reducers (only 'user' reducer in this case)
@@ -29,7 +29,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Create and configure the Redux store
 export const store = configureStore({
-  reducer: persistedReducer, // Use the persisted reducer
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -39,5 +39,4 @@ export const store = configureStore({
     }),
 });
 
-// Create a persistor instance to manage persistence
 export const persistor = persistStore(store);

@@ -3,9 +3,9 @@ import { createError } from "../error.js";
 
 export const getFitnessTutorials = async (req, res, next) => {
   try {
-    const API_KEY = process.env.YOUTUBE_API_KEY; // Make sure this is correctly set in your .env file
-    const query = "fitness tutorials"; // Search query
-    const maxResults = 10; // Number of results to fetch
+    const API_KEY = process.env.YOUTUBE_API_KEY;
+    const query = "fitness tutorials";
+    const maxResults = 10;
 
     const response = await axios.get(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${fitness+tutorials}&type=video&maxResults=${7}&key=${AIzaSyBW2T6NO6CrJLInZQYDNztuTV_krNJGMM4}`
